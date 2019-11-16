@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import Product, Category
+from cart.forms import CartAddItemForm
 
 
 class ProductList(ListView):
@@ -31,3 +32,11 @@ class ProductList(ListView):
 class ProductDetail(DetailView):
     queryset = Product.objects.filter(available=True)
     query_pk_and_slug = True
+
+    def get_context_data(self, **kwargs):
+
+        ctx = super().get_context_data(**kwargs)
+
+        ctx["cart_product_form"] = CartAddItemForm()
+
+        return ctx
